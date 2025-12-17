@@ -16,7 +16,15 @@ export default apiInitializer((api) => {
     if (topicLink) {
       fancyTitle.style.color = "red";
     }
-  })
+  });
+  api.onAppEvent("header:show-topic", () => {
+    // Run your code here every time the header topic title appears!
+    const headerTopicLink = document.querySelector(".title-wrapper a.topic-link");
+    if (headerTopicLink) {
+      // Customize header topic link as you want
+      headerTopicLink.style.color = "red";
+    }
+  });
 })
 
 
