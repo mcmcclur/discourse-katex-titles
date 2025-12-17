@@ -17,7 +17,7 @@ export default apiInitializer((api) => {
       fancyTitle.style.color = "red";
     }
   });
-  api.registrations['app-events:main'].onAppEvent("header:show-topic", () => {
+  api.onAppEvent("header:show-topic", () => {
     // Run your code here every time the header topic title appears!
     const headerTopicLink = document.querySelector(".title-wrapper a.topic-link span");
     console.log("Header topic link:", headerTopicLink);
@@ -27,15 +27,5 @@ export default apiInitializer((api) => {
     }
   });
 })
-
-
-        // application.registrations['app-events:main']
-        //     .on('header:show-topic', function(e){ 
-        //         $('#top-navbar').css('zIndex',0) 
-        //     })
-        //     .on('header:hide-topic', function(e){ 
-        //         $('#top-navbar').css('zIndex',1001) 
-        //     })
-
 
 
