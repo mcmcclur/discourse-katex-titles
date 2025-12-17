@@ -19,7 +19,7 @@ export default apiInitializer((api) => {
   });
   api.onAppEvent("header:show-topic", () => {
     // Run your code here every time the header topic title appears!
-    const headerTopicLink = document.querySelector(".title-wrapper a.topic-link");
+    const headerTopicLink = document.querySelector(".title-wrapper a.topic-link span");
     if (headerTopicLink) {
       // Customize header topic link as you want
       headerTopicLink.style.color = "red";
