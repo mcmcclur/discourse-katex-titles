@@ -20,8 +20,8 @@ export default apiInitializer((api) => {
       fancyTitle.style.color = "red";
     }
   });
-  // api.onAppEvent("header:show-topic", () => {
-  api.onShowTopic(() => {
+  api.onAppEvent("topic:scrolled", () => {
+  // api.onShowTopic(() => {
     const topicLinkSpan = document.querySelector('a.topic-link span');
     console.log("Topic link span:", topicLinkSpan);
     if (topicLinkSpan) {
