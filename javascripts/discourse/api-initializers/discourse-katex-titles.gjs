@@ -21,6 +21,7 @@ export default apiInitializer((api) => {
   });
   api.onAppEvent("header:show-topic", () => {
     const topicLinkSpan = document.querySelector('a.topic-link span');
+    console.log("Topic link span:", topicLinkSpan);
     if (topicLinkSpan) {
       topicLinkSpan.style.color = "red";
     }
