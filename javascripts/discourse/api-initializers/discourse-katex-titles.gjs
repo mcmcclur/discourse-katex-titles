@@ -15,6 +15,7 @@ export default apiInitializer((api) => {
   //   )
   api.onAppEvent("page:changed", () => {
     const fancyTitle = document.querySelector('a.fancy-title');
+    console.log("Fancy title element:", fancyTitle);
     if (fancyTitle) {
       fancyTitle.style.color = "red";
     }
