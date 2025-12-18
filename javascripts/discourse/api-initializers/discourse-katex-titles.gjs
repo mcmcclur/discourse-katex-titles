@@ -19,6 +19,12 @@ export default apiInitializer((api) => {
       fancyTitle.style.color = "red";
     }
   });
+  api.onAppEvent("header:show-topic", () => {
+    const topicLinkSpan = document.querySelector('a.topic-link span');
+    if (topicLinkSpan) {
+      topicLinkSpan.style.color = "red";
+    }
+  });
 })
 
 
