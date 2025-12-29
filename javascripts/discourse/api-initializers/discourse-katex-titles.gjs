@@ -14,13 +14,16 @@ export default apiInitializer((api) => {
   //   }
   //   )
   api.onAppEvent("page:changed", () => {
-    const fancyTitle = document.querySelector('a.title, a.fancy-title');
+    const fancyTitle = document.querySelector('a.fancy-title');
     if (fancyTitle) {
       fancyTitle.style.color = "red";
     }
+    const frontTitles = document.querySelectorAll('a.title');
+    for (const el of frontTitles) {
+      el.style.color = "red";
+    }
   });
   api.onAppEvent("topic:scrolled", () => {
-  // api.onShowTopic(() => {
     const topicLinkSpan = document.querySelector('a.topic-link span');
     if (topicLinkSpan) {
       topicLinkSpan.style.color = "red";
