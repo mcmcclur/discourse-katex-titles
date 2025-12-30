@@ -4,7 +4,7 @@ import { apiInitializer } from "discourse/lib/api";
 // console.log("katex loaded:", katex);
 
 export default apiInitializer((api) => {
-  loadKatexFromCDN().then(katex => {
+  loadKatex().then(katex => {
     console.log("katex loaded from CDN:", katex);
   }).catch(error => {
     console.error("Failed to load KaTeX from CDN:", error);
@@ -32,32 +32,41 @@ export default apiInitializer((api) => {
         node.style.color = "red";
       });
   });
-})
+});
 
-
-
-function loadKatexFromCDN() {
-  if (window.katex) {
-    return Promise.resolve(window.katex);
+function loadKatex() {
+  if (window.renderMathInElement) {
+    return Promise.resolve();
   }
 
   return new Promise((resolve, reject) => {
     // CSS
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href =
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href =
       "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css";
-    document.head.appendChild(link);
+    document.head.appendChild(css);
 
-    // JS
-    const script = document.createElement("script");
-    script.src =
+    // Core KaTeX
+    const katexScript = document.createElement("script");
+    katexScript.src =
       "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js";
-    script.defer = true;
+    katexScript.defer = true;
 
-    script.onload = () => resolve(window.katex);
-    script.onerror = reject;
+    // Auto-render
+    const autoRenderScript = document.createElement("script");
+    autoRenderScript.src =
+      "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js";
+    autoRenderScript.defer = true;
 
-    document.head.appendChild(script);
+    katexScript.onload = () => {
+      autoRenderScript.onload = resolve;
+      autoRenderScript.onerror = reject;
+      document.head.appendChild(autoRenderScript);
+    };
+
+    katexScript.onerror = reject;
+    document.head.appendChild(katexScript);
   });
 }
+
