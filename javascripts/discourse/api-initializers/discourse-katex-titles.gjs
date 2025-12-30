@@ -13,7 +13,7 @@ export default apiInitializer((api) => {
 
       // Best I could figure to catch topic list title changes.
       // There should be an api event for this.
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("onload", () => {
         renderKatex("a.fancy-title");
         renderKatex("a.title");
       })
