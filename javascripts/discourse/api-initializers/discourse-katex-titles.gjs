@@ -24,6 +24,7 @@ export default apiInitializer((api) => {
     }
   });
   api.onAppEvent("topic:scrolled", () => {
+    console.log("Topic scrolled event detected");
     const topicLinkSpan = document.querySelector('a.topic-link span');
     if (topicLinkSpan) {
       topicLinkSpan.style.color = "red";
