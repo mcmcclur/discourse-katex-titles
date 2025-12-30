@@ -18,6 +18,7 @@ export default apiInitializer((api) => {
     }
   });
   api.onAppEvent("page:topic-loaded", () => {
+    console.log("topic loaded");
     document.querySelectorAll('.topic-list-item .title').forEach(
       node => {
         node.style.color = "red";
