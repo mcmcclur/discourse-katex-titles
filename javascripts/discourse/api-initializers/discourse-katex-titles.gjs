@@ -1,5 +1,6 @@
 import { apiInitializer } from "discourse/lib/api";
-import katex from 'katex';
+import * as katex from "katex";
+import "katex/dist/katex.min.css";
 
 console.log("katex loaded:", katex);
 
