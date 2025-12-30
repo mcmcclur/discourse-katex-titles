@@ -5,7 +5,7 @@ import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
   loadKatex().then(katex => {
-    console.log("katex loaded from CDN:", katex);
+    console.log("katex loaded from CDN:", katex, window.renderMathInElement);
   }).catch(error => {
     console.error("Failed to load KaTeX from CDN:", error);
   });
