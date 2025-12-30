@@ -4,21 +4,23 @@ import { apiInitializer } from "discourse/lib/api";
 // console.log("katex loaded:", katex);
 
 export default apiInitializer((api) => {
-  loadKatex().then(katex => {
-    console.log("katex loaded from CDN:", katex, window.renderMathInElement);
+  loadKatex().then(() => {
+    api.onAppEvent("page:changed", () => {
+      renderKatex(document, 'a.fancy-title');
+      renderKatex(document, 'a.title');
+      // const fancyTitle = document.querySelector('a.fancy-title');
+      // if (fancyTitle) {
+      //   fancyTitle.style.color = "red";
+      // }
+      // const frontTitles = document.querySelectorAll('a.title');
+      // for (const el of frontTitles) {
+      //   el.style.color = "red";
+      // }
+    });
   }).catch(error => {
     console.error("Failed to load KaTeX from CDN:", error);
   });
-  api.onAppEvent("page:changed", () => {
-    const fancyTitle = document.querySelector('a.fancy-title');
-    if (fancyTitle) {
-      fancyTitle.style.color = "red";
-    }
-    const frontTitles = document.querySelectorAll('a.title');
-    for (const el of frontTitles) {
-      el.style.color = "red";
-    }
-  });
+
   api.onAppEvent("topic:scrolled", () => {
     const topicLinkSpan = document.querySelector('a.topic-link span');
     if (topicLinkSpan) {
@@ -70,3 +72,20 @@ function loadKatex() {
   });
 }
 
+function renderKatex(root = document, elementMatch) {
+  if (!window.renderMathInElement) return;
+
+  root.querySelectorAll(elementMatch).forEach((el) => {
+    if (el.dataset.katexRendered) return;
+
+    renderMathInElement(el, {
+      delimiters: [
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+      ],
+      throwOnError: false,
+    });
+
+    el.dataset.katexRendered = "true";
+  });
+}
