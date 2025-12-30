@@ -8,15 +8,13 @@ export default apiInitializer((api) => {
     api.onAppEvent("page:changed", () => {
       renderKatex(document, 'a.fancy-title');
       renderKatex(document, 'a.title');
-      // const fancyTitle = document.querySelector('a.fancy-title');
-      // if (fancyTitle) {
-      //   fancyTitle.style.color = "red";
-      // }
-      // const frontTitles = document.querySelectorAll('a.title');
-      // for (const el of frontTitles) {
-      //   el.style.color = "red";
-      // }
     });
+    api.onAppEvent("topic:scrolled", () => {
+      renderKatex(document, 'a.topic-link span');
+    });
+    document.addEventListener("animationstart", () => {
+      renderKatex(document, '.topic-list-item .title');
+    })
   }).catch(error => {
     console.error("Failed to load KaTeX from CDN:", error);
   });
