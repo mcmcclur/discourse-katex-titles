@@ -1,18 +1,6 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
-  // console.log("Info:", api, document.querySelectorAll(".fancy-title"));
-  // api.renderInOutlet("topic-title", 
-  //   <template>
-  //     <div>Fancy Title Extension</div>
-  //   </template>
-  // );
-  // api.onPageChange(() => {
-  //   const fancyTitle = document.querySelector('a.fancy-title');
-  //   if (fancyTitle) {
-  //     fancyTitle.style.color = "red";
-  //   }
-  //   )
   api.onAppEvent("page:changed", () => {
     const fancyTitle = document.querySelector('a.fancy-title');
     if (fancyTitle) {
@@ -29,6 +17,16 @@ export default apiInitializer((api) => {
     if (topicLinkSpan) {
       topicLinkSpan.style.color = "red";
     }
+  });
+  api.modifyClass('component:topic-list', {
+    myObserver: Ember.observer('topics.[]', function () {
+      Ember.run.scheduleOnce('afterRender', () => {
+        document.querySelectorAll('.topic-list-item .title')
+          .forEach(node => {
+            node.style.color = "red";
+          });
+      });
+    })
   });
 })
 
