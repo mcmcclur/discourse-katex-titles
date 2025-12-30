@@ -4,14 +4,21 @@ export default apiInitializer((api) => {
   loadKatex()
     .then(() => {
       api.onAppEvent("page:changed", () => {
-        renderKatex(document, "a.fancy-title");
-        renderKatex(document, "a.title");
+        renderKatex("a.fancy-title");
+        renderKatex("a.title");
       });
       api.onAppEvent("topic:scrolled", () => {
-        renderKatex(document, "a.topic-link span");
+        renderKatex("a.topic-link span");
       });
+
+      // Best I could figure to catch topic list title changes.
+      // There should be an api event for this.
+      document.addEventListener("DOMContentLoaded", () => {
+        renderKatex("a.fancy-title");
+        renderKatex("a.title");
+      })
       document.addEventListener("animationstart", () => {
-        renderKatex(document, ".topic-list-item .title");
+        renderKatex(".topic-list-item .title");
       });
     })
     .catch(() => {
@@ -53,12 +60,12 @@ function loadKatex() {
   });
 }
 
-function renderKatex(root = document, elementMatch) {
+function renderKatex(elementMatch) {
   if (!window.renderMathInElement) {
     return;
   }
 
-  root.querySelectorAll(elementMatch).forEach((el) => {
+  document.querySelectorAll(elementMatch).forEach((el) => {
     if (el.dataset.katexRendered) {
       return;
     }
