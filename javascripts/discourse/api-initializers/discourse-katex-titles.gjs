@@ -69,10 +69,10 @@ function loadKatex() {
 }
 
 function renderKatex(root = document, elementMatch) {
-  if (!window.renderMathInElement) return;
+  if (!window.renderMathInElement) {return;}
 
   root.querySelectorAll(elementMatch).forEach((el) => {
-    if (el.dataset.katexRendered) return;
+    if (el.dataset.katexRendered) {return;}
 
     renderMathInElement(el, {
       delimiters: [
