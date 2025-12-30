@@ -21,19 +21,18 @@ export default apiInitializer((api) => {
     console.error("Failed to load KaTeX from CDN:", error);
   });
 
-  api.onAppEvent("topic:scrolled", () => {
-    const topicLinkSpan = document.querySelector('a.topic-link span');
-    if (topicLinkSpan) {
-      topicLinkSpan.style.color = "red";
-    }
-  });
-  document.addEventListener("animationstart", event => {
-    console.log("topic loaded");
-    document.querySelectorAll('.topic-list-item .title').forEach(
-      node => {
-        node.style.color = "red";
-      });
-  });
+  // api.onAppEvent("topic:scrolled", () => {
+  //   const topicLinkSpan = document.querySelector('a.topic-link span');
+  //   if (topicLinkSpan) {
+  //     topicLinkSpan.style.color = "red";
+  //   }
+  // });
+  // document.addEventListener("animationstart", event => {
+  //   document.querySelectorAll('.topic-list-item .title').forEach(
+  //     node => {
+  //       node.style.color = "red";
+  //     });
+  // });
 });
 
 function loadKatex() {
@@ -42,7 +41,6 @@ function loadKatex() {
   }
 
   return new Promise((resolve, reject) => {
-    // CSS
     const css = document.createElement("link");
     css.rel = "stylesheet";
     css.href =
