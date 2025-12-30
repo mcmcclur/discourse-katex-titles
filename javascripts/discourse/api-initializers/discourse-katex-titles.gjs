@@ -1,5 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
-import katex from 'https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.mjs';
+import katex from 'katex';
 
 console.log("katex loaded:", katex);
 
