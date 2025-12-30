@@ -2,6 +2,7 @@ import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
   api.onAppEvent("page:changed", () => {
+    console.log("page changed");
     const fancyTitle = document.querySelector('a.fancy-title');
     if (fancyTitle) {
       fancyTitle.style.color = "red";
