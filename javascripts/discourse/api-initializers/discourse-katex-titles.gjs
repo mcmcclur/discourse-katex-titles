@@ -1,4 +1,7 @@
 import { apiInitializer } from "discourse/lib/api";
+import katex from 'https://cdn.jsdelivr.net/npm/katex@0.16.27/+esm'
+
+console.log("katex loaded:", katex);
 
 export default apiInitializer((api) => {
   api.onAppEvent("page:changed", () => {
