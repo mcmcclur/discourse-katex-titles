@@ -7,6 +7,10 @@ export default apiInitializer((api) => {
         renderKatex("a.fancy-title");
         renderKatex("a.title");
       });
+      api.onPageChange(() => {
+        renderKatex("a.fancy-title");
+        renderKatex("a.title");
+      });
       api.onAppEvent("topic:scrolled", () => {
         renderKatex("a.topic-link span");
       });
