@@ -1,33 +1,22 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
-  loadKatex().then(() => {
-    api.onAppEvent("page:changed", () => {
-      renderKatex(document, 'a.fancy-title');
-      renderKatex(document, 'a.title');
-    });
-    api.onAppEvent("topic:scrolled", () => {
-      renderKatex(document, 'a.topic-link span');
-    });
-    document.addEventListener("animationstart", () => {
-      renderKatex(document, '.topic-list-item .title');
+  loadKatex()
+    .then(() => {
+      api.onAppEvent("page:changed", () => {
+        renderKatex(document, "a.fancy-title");
+        renderKatex(document, "a.title");
+      });
+      api.onAppEvent("topic:scrolled", () => {
+        renderKatex(document, "a.topic-link span");
+      });
+      document.addEventListener("animationstart", () => {
+        renderKatex(document, ".topic-list-item .title");
+      });
     })
-  }).catch(() => {
-    "pass";
-  });
-
-  // api.onAppEvent("topic:scrolled", () => {
-  //   const topicLinkSpan = document.querySelector('a.topic-link span');
-  //   if (topicLinkSpan) {
-  //     topicLinkSpan.style.color = "red";
-  //   }
-  // });
-  // document.addEventListener("animationstart", event => {
-  //   document.querySelectorAll('.topic-list-item .title').forEach(
-  //     node => {
-  //       node.style.color = "red";
-  //     });
-  // });
+    .catch(() => {
+      "pass";
+    });
 });
 
 function loadKatex() {
@@ -38,8 +27,7 @@ function loadKatex() {
   return new Promise((resolve, reject) => {
     const css = document.createElement("link");
     css.rel = "stylesheet";
-    css.href =
-      "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css";
+    css.href = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css";
     document.head.appendChild(css);
 
     // Core KaTeX
@@ -66,10 +54,14 @@ function loadKatex() {
 }
 
 function renderKatex(root = document, elementMatch) {
-  if (!window.renderMathInElement) {return;}
+  if (!window.renderMathInElement) {
+    return;
+  }
 
   root.querySelectorAll(elementMatch).forEach((el) => {
-    if (el.dataset.katexRendered) {return;}
+    if (el.dataset.katexRendered) {
+      return;
+    }
 
     window.renderMathInElement(el, {
       delimiters: [
