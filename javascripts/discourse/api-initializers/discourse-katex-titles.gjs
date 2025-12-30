@@ -12,22 +12,16 @@ export default apiInitializer((api) => {
     }
   });
   api.onAppEvent("topic:scrolled", () => {
-    console.log("Topic scrolled event detected");
     const topicLinkSpan = document.querySelector('a.topic-link span');
     if (topicLinkSpan) {
       topicLinkSpan.style.color = "red";
     }
   });
-  api.modifyClass('component:topic-list', {
-    myObserver: Ember.observer('topics.[]', function () {
-      Ember.run.scheduleOnce('afterRender', () => {
-        document.querySelectorAll('.topic-list-item .title')
-          .forEach(node => {
-            node.style.color = "red";
-          });
+  api.onAppEvent("page:topic-loaded", () => {
+    document.querySelectorAll('.topic-list-item .title').forEach(
+      node => {
+        node.style.color = "red";
       });
-    })
   });
 })
-
 
