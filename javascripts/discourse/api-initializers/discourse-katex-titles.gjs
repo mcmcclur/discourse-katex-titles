@@ -17,7 +17,7 @@ export default apiInitializer((api) => {
       topicLinkSpan.style.color = "red";
     }
   });
-  api.onAppEvent("page:topic-loaded", () => {
+  api.onAppEvent("header:show-topic", () => {
     console.log("topic loaded");
     document.querySelectorAll('.topic-list-item .title').forEach(
       node => {
