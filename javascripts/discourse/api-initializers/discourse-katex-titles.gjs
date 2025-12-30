@@ -2,7 +2,6 @@ import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer((api) => {
   api.onAppEvent("page:changed", () => {
-    console.log("page changed");
     const fancyTitle = document.querySelector('a.fancy-title');
     if (fancyTitle) {
       fancyTitle.style.color = "red";
@@ -18,7 +17,7 @@ export default apiInitializer((api) => {
       topicLinkSpan.style.color = "red";
     }
   });
-  document.addEventListener("animationend", event => {
+  document.addEventListener("animationstart", event => {
     console.log("topic loaded");
     document.querySelectorAll('.topic-list-item .title').forEach(
       node => {
