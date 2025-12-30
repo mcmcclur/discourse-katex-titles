@@ -1,7 +1,4 @@
 import { apiInitializer } from "discourse/lib/api";
-// import * as katex from "katex";
-// import "katex/dist/katex.min.css";
-// console.log("katex loaded:", katex);
 
 export default apiInitializer((api) => {
   loadKatex().then(() => {
@@ -15,8 +12,8 @@ export default apiInitializer((api) => {
     document.addEventListener("animationstart", () => {
       renderKatex(document, '.topic-list-item .title');
     })
-  }).catch(error => {
-    console.error("Failed to load KaTeX from CDN:", error);
+  }).catch(() => {
+    "pass";
   });
 
   // api.onAppEvent("topic:scrolled", () => {
@@ -74,7 +71,7 @@ function renderKatex(root = document, elementMatch) {
   root.querySelectorAll(elementMatch).forEach((el) => {
     if (el.dataset.katexRendered) {return;}
 
-    renderMathInElement(el, {
+    window.renderMathInElement(el, {
       delimiters: [
         { left: "$", right: "$", display: false },
         { left: "\\(", right: "\\)", display: false },
