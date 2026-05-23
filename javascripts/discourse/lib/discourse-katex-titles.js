@@ -1,5 +1,5 @@
-const KATEX_VERSION = "0.16.45";
-const MATHJAX_VERSION = "4.0.0";
+const KATEX_VERSION = "0.16";
+const MATHJAX_VERSION = "4.1";
 
 let katexLoadPromise;
 let mathJaxLoadPromise;
@@ -98,6 +98,9 @@ function loadMathJax() {
     },
     options: {
       enableMenu: false,
+      menuOptions: {
+        enrich: false
+      }
     },
     tex: {
       inlineMath: [
