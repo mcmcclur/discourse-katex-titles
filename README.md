@@ -1,7 +1,5 @@
 # discourse-katex-titles
 
-**Theme Summary**
+**Branch Summary**
 
-Typesets Discourse titles using either KaTeX or MathJax.
-
-For more information, please see: **url to meta topic**
+This branch attempts to typeset the titles using MathJax. I was unable to get it to work properly, though. It seems that the main issue is a conflict with the copy of MathJax with the official Math Plugin.
