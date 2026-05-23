@@ -96,6 +96,9 @@ function loadMathJax() {
     startup: {
       typeset: false,
     },
+    options: {
+      enableMenu: false,
+    },
     tex: {
       inlineMath: [
         ["$", "$"],
@@ -152,6 +155,8 @@ export function renderMathInElement(element, sourceKey) {
   if (wasRendered(element, renderer, sourceKey)) {
     return;
   }
+
+  element.textContent = sourceKey;
 
   const renderPromise =
     renderer === "mathjax"

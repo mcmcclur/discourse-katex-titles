@@ -25,13 +25,15 @@ export default class DiscourseKatexTitlesTopicTitle extends Component {
   }
 
   <template>
-    <h1
-      class="discourse-katex-titles-topic-page-title"
-      {{didInsert this.renderTitle}}
-      {{didUpdate this.renderTitle this.sourceKey}}
-    >
+    <h1 class="discourse-katex-titles-topic-page-title">
       <a href={{this.topicUrl}} class="fancy-title">
-        {{this.topicTitle}}
+        <span
+          class="discourse-katex-titles-math"
+          {{didInsert this.renderTitle}}
+          {{didUpdate this.renderTitle this.sourceKey}}
+        >
+          {{this.topicTitle}}
+        </span>
       </a>
     </h1>
   </template>

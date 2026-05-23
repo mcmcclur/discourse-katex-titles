@@ -28,10 +28,14 @@ export default class DiscourseKatexTitlesHeaderTitle extends Component {
     <a
       href={{this.topicUrl}}
       class="topic-link discourse-katex-titles-header-title"
-      {{didInsert this.renderTitle}}
-      {{didUpdate this.renderTitle this.sourceKey}}
     >
-      {{this.topicTitle}}
+      <span
+        class="discourse-katex-titles-math"
+        {{didInsert this.renderTitle}}
+        {{didUpdate this.renderTitle this.sourceKey}}
+      >
+        {{this.topicTitle}}
+      </span>
     </a>
   </template>
 }
