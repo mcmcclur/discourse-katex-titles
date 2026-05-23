@@ -2,3 +2,12 @@
 .discourse-katex-titles-topic-link-wrapper {
   display: contents;
 }
+
+// Replace the cooked top-of-topic title with the raw-title KaTeX version.
+#topic-title .title-wrapper {
+  display: none;
+}
+
+#topic-title .discourse-katex-titles-topic-page-title {
+  margin: 0;
+}
