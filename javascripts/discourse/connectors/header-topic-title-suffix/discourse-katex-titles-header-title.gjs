@@ -5,22 +5,11 @@ import { renderKatexInElement } from "../../lib/discourse-katex-titles";
 
 export default class DiscourseKatexTitlesHeaderTitle extends Component {
   renderTitle = (element) => {
-    const headerTitle = element.closest(".header-title");
-
-    headerTitle?.classList.toggle(
-      "discourse-katex-titles-has-header-title",
-      Boolean(this.sourceKey)
-    );
-
     renderKatexInElement(element, this.sourceKey);
   };
 
   get topic() {
-    return (
-      this.args.outletArgs?.topic ||
-      this.args.outletArgs?.model ||
-      this.args.outletArgs?.topicView?.topic
-    );
+    return this.args.outletArgs?.topic;
   }
 
   get sourceKey() {
@@ -31,13 +20,18 @@ export default class DiscourseKatexTitlesHeaderTitle extends Component {
     return this.topic?.title || "";
   }
 
+  get topicUrl() {
+    return this.topic?.url || "#";
+  }
+
   <template>
-    <span
-      class="discourse-katex-titles-header-title"
+    <a
+      href={{this.topicUrl}}
+      class="topic-link discourse-katex-titles-header-title"
       {{didInsert this.renderTitle}}
       {{didUpdate this.renderTitle this.sourceKey}}
     >
       {{this.topicTitle}}
-    </span>
+    </a>
   </template>
 }

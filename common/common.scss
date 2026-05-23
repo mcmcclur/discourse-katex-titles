@@ -12,12 +12,17 @@
   margin: 0;
 }
 
-// Replace the cooked scrolled-header title only when our outlet connector has data.
-.d-header .header-title.discourse-katex-titles-has-header-title a.topic-link > span {
+// Replace the cooked scrolled-header title with a raw-title KaTeX version.
+.d-header .header-title > a.topic-link > span {
   display: none;
 }
 
-.d-header .header-title .discourse-katex-titles-header-title {
+.d-header .header-title .header-topic-title-suffix {
+  display: inline-block;
+  min-width: 0;
+}
+
+.d-header .header-title .header-topic-title-suffix .discourse-katex-titles-header-title {
   display: inline-block;
   min-width: 0;
 }
