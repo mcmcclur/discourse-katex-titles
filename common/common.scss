@@ -12,18 +12,23 @@
   margin: 0;
 }
 
-// Replace the cooked scrolled-header title with a raw-title KaTeX version.
-.d-header .title-wrapper .header-title {
+// Replace the cooked scrolled-header title only when our outlet connector has data.
+.d-header .title-wrapper.discourse-katex-titles-has-header-title .header-title {
   display: none;
 }
 
-.d-header .title-wrapper .discourse-katex-titles-header-title {
+.d-header
+  .title-wrapper.discourse-katex-titles-has-header-title
+  .discourse-katex-titles-header-title {
   display: inline-flex;
   align-items: center;
   min-width: 0;
 }
 
-.d-header .title-wrapper .discourse-katex-titles-header-title .topic-link {
+.d-header
+  .title-wrapper.discourse-katex-titles-has-header-title
+  .discourse-katex-titles-header-title
+  .topic-link {
   display: inline-block;
   min-width: 0;
 }

@@ -5,11 +5,22 @@ import { renderKatexInElement } from "../../lib/discourse-katex-titles";
 
 export default class DiscourseKatexTitlesHeaderTitle extends Component {
   renderTitle = (element) => {
+    const titleWrapper = element.closest(".title-wrapper");
+
+    titleWrapper?.classList.toggle(
+      "discourse-katex-titles-has-header-title",
+      Boolean(this.sourceKey)
+    );
+
     renderKatexInElement(element, this.sourceKey);
   };
 
   get topic() {
-    return this.args.outletArgs?.model;
+    return (
+      this.args.outletArgs?.topic ||
+      this.args.outletArgs?.model ||
+      this.args.outletArgs?.topicView?.topic
+    );
   }
 
   get sourceKey() {
