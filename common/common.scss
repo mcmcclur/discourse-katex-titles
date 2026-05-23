@@ -1,1 +1,4 @@
-// Theme's SCSS
+// Preserve the original layout while giving the connector a DOM node to render into.
+.discourse-katex-titles-topic-link-wrapper {
+  display: contents;
+}
