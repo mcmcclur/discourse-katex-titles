@@ -1,6 +1,60 @@
-let katexLoadPromise;
+const KATEX_VERSION = "0.16.45";
+const MATHJAX_VERSION = "4.0.0";
 
-export function loadKatex() {
+let katexLoadPromise;
+let mathJaxLoadPromise;
+let mathJaxTypesetQueue = Promise.resolve();
+
+function getRenderer() {
+  if (typeof settings === "undefined" || !settings.renderer) {
+    return "katex";
+  }
+
+  return settings.renderer;
+}
+
+function markRendered(element, renderer, sourceKey) {
+  element.dataset.mathRenderer = renderer;
+  element.dataset.mathSourceKey = sourceKey;
+}
+
+function wasRendered(element, renderer, sourceKey) {
+  return (
+    element.dataset.mathRenderer === renderer &&
+    element.dataset.mathSourceKey === sourceKey
+  );
+}
+
+function getDelimiters() {
+  return [
+    { left: "$", right: "$", display: false },
+    { left: "\\(", right: "\\)", display: false },
+  ];
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+function loadStylesheet(href) {
+  if (document.querySelector(`link[href="${href}"]`)) {
+    return;
+  }
+
+  const css = document.createElement("link");
+  css.rel = "stylesheet";
+  css.href = href;
+  document.head.appendChild(css);
+}
+
+function loadKatex() {
   if (window.renderMathInElement) {
     return Promise.resolve();
   }
@@ -9,64 +63,106 @@ export function loadKatex() {
     return katexLoadPromise;
   }
 
-  katexLoadPromise = new Promise((resolve, reject) => {
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css";
-    document.head.appendChild(css);
+  loadStylesheet(
+    `https://cdn.jsdelivr.net/npm/katex@${KATEX_VERSION}/dist/katex.min.css`
+  );
 
-    const katexScript = document.createElement("script");
-    katexScript.src =
-      "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js";
-    katexScript.defer = true;
-
-    const autoRenderScript = document.createElement("script");
-    autoRenderScript.src =
-      "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js";
-    autoRenderScript.defer = true;
-
-    katexScript.onload = () => {
-      autoRenderScript.onload = resolve;
-      autoRenderScript.onerror = reject;
-      document.head.appendChild(autoRenderScript);
-    };
-
-    katexScript.onerror = reject;
-    document.head.appendChild(katexScript);
-  }).catch((error) => {
-    katexLoadPromise = undefined;
-    throw error;
-  });
+  katexLoadPromise = loadScript(
+    `https://cdn.jsdelivr.net/npm/katex@${KATEX_VERSION}/dist/katex.min.js`
+  )
+    .then(() =>
+      loadScript(
+        `https://cdn.jsdelivr.net/npm/katex@${KATEX_VERSION}/dist/contrib/auto-render.min.js`
+      )
+    )
+    .catch((error) => {
+      katexLoadPromise = undefined;
+      throw error;
+    });
 
   return katexLoadPromise;
 }
 
-export function renderKatexInElement(element, sourceKey) {
+function loadMathJax() {
+  if (window.MathJax?.typesetPromise) {
+    return Promise.resolve();
+  }
+
+  if (mathJaxLoadPromise) {
+    return mathJaxLoadPromise;
+  }
+
+  window.MathJax = {
+    startup: {
+      typeset: false,
+    },
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+    },
+  };
+
+  mathJaxLoadPromise = loadScript(
+    `https://cdn.jsdelivr.net/npm/mathjax@${MATHJAX_VERSION}/tex-chtml.js`
+  ).catch((error) => {
+    mathJaxLoadPromise = undefined;
+    throw error;
+  });
+
+  return mathJaxLoadPromise;
+}
+
+function renderKatexInElement(element) {
+  return loadKatex().then(() => {
+    if (!window.renderMathInElement) {
+      return;
+    }
+
+    window.renderMathInElement(element, {
+      delimiters: getDelimiters(),
+      throwOnError: false,
+    });
+  });
+}
+
+function renderMathJaxInElement(element) {
+  return loadMathJax().then(() => {
+    mathJaxTypesetQueue = mathJaxTypesetQueue.then(async () => {
+      if (!window.MathJax?.typesetPromise) {
+        return;
+      }
+
+      window.MathJax.typesetClear?.([element]);
+      await window.MathJax.typesetPromise([element]);
+    });
+
+    return mathJaxTypesetQueue;
+  });
+}
+
+export function renderMathInElement(element, sourceKey) {
   if (!element || !sourceKey) {
     return;
   }
 
-  if (element.dataset.katexSourceKey === sourceKey) {
+  const renderer = getRenderer();
+
+  if (wasRendered(element, renderer, sourceKey)) {
     return;
   }
 
-  loadKatex()
+  const renderPromise =
+    renderer === "mathjax"
+      ? renderMathJaxInElement(element)
+      : renderKatexInElement(element);
+
+  renderPromise
     .then(() => {
-      if (!window.renderMathInElement) {
-        return;
-      }
-
-      window.renderMathInElement(element, {
-        delimiters: [
-          { left: "$", right: "$", display: false },
-          { left: "\\(", right: "\\)", display: false },
-        ],
-        throwOnError: false,
-      });
-
-      element.dataset.katexSourceKey = sourceKey;
+      markRendered(element, renderer, sourceKey);
     })
     .catch(() => {
-      // Keep the original title visible if KaTeX fails to load or render.
+      // Keep the original title visible if the renderer fails to load or render.
     });
 }

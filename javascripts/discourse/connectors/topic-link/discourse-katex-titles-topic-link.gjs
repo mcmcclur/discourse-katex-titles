@@ -1,11 +1,11 @@
 import Component from "@glimmer/component";
 import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import didUpdate from "@ember/render-modifiers/modifiers/did-update";
-import { renderKatexInElement } from "../../lib/discourse-katex-titles";
+import { renderMathInElement } from "../../lib/discourse-katex-titles";
 
 export default class DiscourseKatexTitlesTopicLink extends Component {
   renderTitle = (element) => {
-    renderKatexInElement(element, this.sourceKey);
+    renderMathInElement(element, this.sourceKey);
   };
 
   get topic() {

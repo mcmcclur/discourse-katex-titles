@@ -1,2 +1,6 @@
-example_setting:
-  default: true
+renderer:
+  type: enum
+  default: katex
+  choices:
+    - katex
+    - mathjax

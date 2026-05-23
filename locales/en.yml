@@ -1,5 +1,5 @@
 en:
   theme_metadata:
-    description: Uses KaTeX to typeset math in titles
+    description: Uses KaTeX or MathJax to typeset math in titles
     settings:
-      example_setting: A description of a setting.
+      renderer: Choose which math renderer typesets titles.
