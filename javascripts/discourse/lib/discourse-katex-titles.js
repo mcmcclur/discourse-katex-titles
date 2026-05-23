@@ -100,9 +100,9 @@ function loadMathJax() {
       enableMenu: false,
       menuOptions: {
         settings: {
-          enrich: false
-        }
-      }
+          enrich: false,
+        },
+      },
     },
     tex: {
       inlineMath: [

@@ -25,7 +25,10 @@ export default class DiscourseKatexTitlesTopicLink extends Component {
   }
 
   <template>
-    <a href={{this.topicUrl}} class="title discourse-katex-titles-topic-link-wrapper">
+    <a
+      href={{this.topicUrl}}
+      class="title discourse-katex-titles-topic-link-wrapper"
+    >
       <span
         class="discourse-katex-titles-math"
         {{didInsert this.renderTitle}}
