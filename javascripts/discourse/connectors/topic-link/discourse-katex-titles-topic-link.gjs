@@ -8,19 +8,30 @@ export default class DiscourseKatexTitlesTopicLink extends Component {
     renderKatexInElement(element, this.sourceKey);
   };
 
-  get sourceKey() {
-    const topic = this.args.outletArgs?.topic;
+  get topic() {
+    return this.args.outletArgs?.topic;
+  }
 
-    return topic?.fancy_title || topic?.title || "";
+  get sourceKey() {
+    return this.topic?.title || "";
+  }
+
+  get topicTitle() {
+    return this.topic?.title || "";
+  }
+
+  get topicUrl() {
+    return this.topic?.url || "#";
   }
 
   <template>
-    <span
-      class="discourse-katex-titles-topic-link-wrapper"
+    <a
+      href={{this.topicUrl}}
+      class="title discourse-katex-titles-topic-link-wrapper"
       {{didInsert this.renderTitle}}
       {{didUpdate this.renderTitle this.sourceKey}}
     >
-      {{yield}}
-    </span>
+      {{this.topicTitle}}
+    </a>
   </template>
 }
