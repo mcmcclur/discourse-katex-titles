@@ -13,8 +13,5 @@
     "yarn": "please-use-pnpm",
     "pnpm": "9.x"
   },
-  "packageManager": "pnpm@9.15.5",
-  "dependencies": {
-    "katex": "^0.16.27"
-  }
+  "packageManager": "pnpm@9.15.5"
 }
