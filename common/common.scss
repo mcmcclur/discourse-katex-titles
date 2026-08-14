@@ -3,6 +3,13 @@
   display: contents;
 }
 
+.latest-topic-list-item
+  .main-link
+  .top-row
+  > a.title:not(.discourse-katex-titles-latest-topic-list-title) {
+  display: none;
+}
+
 // Replace the cooked top-of-topic title with the raw-title KaTeX version.
 #topic-title .title-wrapper {
   display: none;
