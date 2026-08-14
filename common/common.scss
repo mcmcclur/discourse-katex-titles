@@ -8,6 +8,12 @@
   display: none;
 }
 
+// Deal also with the new HTML structure used when nesting is turned on
+.nested-view__header > .nested-view__title,
+.nested-view__header > .topic-category {
+  display: none;
+}
+
 #topic-title .discourse-katex-titles-topic-page-title {
   margin: 0;
 }
